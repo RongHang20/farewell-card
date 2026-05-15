@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Farewell Invitation</title>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: black;
+        }
+
+        /* BACKGROUND */
+
+        .background{
+            position: fixed;
+            inset: 0;
+
+            background-image: url("background.jpeg");
+            background-size: cover;
+            background-position: center;
+
+            filter: blur(10px);
+
+            transform: scale(1.1);
+
+            z-index: 0;
+        }
+
+        /* ENVELOPE SCREEN */
+
+        .envelope-screen{
+            position: fixed;
+            inset: 0;
+
+            background: black;
+
+            z-index: 9999;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ENVELOPE */
+
+        .envelope{
+            position: relative;
+
+            width: 260px;
+            height: 170px;
+
+            background: #ff4d6d;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            box-shadow: 0 0 30px rgba(255,0,100,0.7);
+        }
+
+        /* TOP FLAP */
+
+        .envelope::before{
+            content: "";
+
+            position: absolute;
+
+            top: -85px;
+            left: 0;
+
+            width: 0;
+            height: 0;
+
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-bottom: 85px solid #ff758f;
+
+            transform-origin: bottom;
+
+            transition: transform 1s ease;
+        }
+
+        /* LETTER */
+
+        .letter{
+            position: absolute;
+
+            width: 90%;
+            height: 120px;
+
+            background: white;
+
+            top: 20px;
+            left: 5%;
+
+            border-radius: 10px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #ff4d6d;
+
+            font-size: 1.5rem;
+            font-weight: bold;
+
+            transition: transform 1s ease;
+        }
+
+        /* OPEN ANIMATION */
+
+        .envelope.open::before{
+            transform: rotateX(180deg);
+        }
+
+        .envelope.open .letter{
+            transform: translateY(-110px);
+        }
+
+        /* INTRO */
+
+        .intro{
+            position: fixed;
+            inset: 0;
+
+            z-index: 2;
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+
+            animation: introFade 4s forwards;
+        }
+
+        .intro h1{
+            font-size: 2rem;
+
+            text-shadow:
+            0 0 10px rgb(253,24,24),
+            0 0 6px rgb(253,24,24);
+
+            text-align: center;
+        }
+
+        @keyframes introFade{
+
+            0%{
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            20%{
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            70%{
+                opacity: 1;
+            }
+
+            100%{
+                opacity: 0;
+                transform: scale(1.1);
+            }
+        }
+
+        /* SLIDESHOW */
+
+        .slideshow{
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 3;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition: opacity 1s ease;
+        }
+
+        .slideshow.show{
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 5;
+
+        }
+
+        /* SLIDES */
+
+        .slide{
+            position: absolute;
+
+            width: 90%;
+            max-width: 500px;
+
+            height: 80vh;
+
+            object-fit: cover;
+
+            border-radius: 15px;
+
+            opacity: 0;
+
+            transition: opacity 2s ease-in-out;
+        }
+
+        .slide.active{
+            opacity: 1;
+        }
+
+        /* TEXT */
+
+        .textcontainer{
+            position: absolute;
+
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            text-align: center;
+
+            width: 100%;
+        }
+
+        .fade-line{
+            color: white;
+
+            font-size: 1rem;
+            font-weight: bold;
+
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.9);
+
+            opacity: 0;
+
+            margin: 10px;
+
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .fade-line:nth-child(1){
+            animation-delay: 8s;
+        }
+
+        .fade-line:nth-child(2){
+            animation-delay: 10s;
+        }
+
+        .fade-line:nth-child(3){
+            animation-delay: 12s;
+        }
+
+        .fade-line:nth-child(4){
+            animation-delay: 14s;
+        }
+
+        @keyframes fadeInUp{
+
+            from{
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to{
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* BUTTON */
+
+        .text-container{
+            margin-top: 30px;
+            pointer-events: auto;
+        }
+
+        .gallery-btn{
+            background: red;
+
+            border: 1px solid white;
+
+            width: 110px;
+            height: 45px;
+
+            color: white;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+            pointer-events: auto;
+        }
+
+        .gallery-btn:hover{
+            background: rgb(84,5,5);
+        }
+
+        /* MOBILE */
+
+        @media(max-width:768px){
+
+            .intro h1{
+                font-size: 3rem;
+                padding: 20px;
+            }
+
+            .fade-line{
+                font-size: 1.2rem;
+                padding: 0 20px;
+            }
+
+            .slide{
+                width: 92%;
+                height: 70vh;
+            }
+
+            .envelope{
+                width: 200px;
+                height: 140px;
+            }
+
+            .envelope::before{
+
+                border-left: 100px solid transparent;
+                border-right: 100px solid transparent;
+                border-bottom: 70px solid #ff758f;
+
+                top: -70px;
+            }
+
+            .letter{
+                height: 100px;
+                font-size: 1.2rem;
+            }
+        }
+       /* INVITATION MODAL */
+
+.invite-modal{
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.8);
+
+    z-index: 99999;
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD */
+
+.invite-card{
+
+    width: 90%;
+    max-width: 450px;
+
+    background: rgba(255,255,255,0.1);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    color: white;
+
+    text-align: center;
+
+    position: relative;
+}
+
+/* CLOSE BUTTON */
+
+.close-card{
+
+    position: absolute;
+
+    top: 10px;
+    right: 20px;
+
+    font-size: 2rem;
+
+    cursor: pointer;
+}
+
+.invite-card h1{
+    margin-bottom: 20px;
+    color: #ff4d6d;
+}
+
+.details p{
+    margin: 15px 0;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+
+    <div class="background"></div>
+
+    <!-- ENVELOPE SCREEN -->
+
+    <div class="envelope-screen" id="envelopeScreen">
+
+        <div class="envelope" id="envelope">
+
+            <div class="letter">
+                Open Me ❤️
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MUSIC -->
+
+    <audio id="bgMusic" loop>
+        <source src="videoplayback.m4a" type="audio/mp3">
+    </audio>
+
+    <!-- INTRO -->
+
+    <div class="intro">
+        <h1> With lots of❤️😊</h1>
+    </div>
+
+    <!-- SLIDESHOW -->
+
+    <div class="slideshow">
+
+        <img src="s1.jpg" class="slide active">
+
+        <img src="s2.jpg" class="slide">
+
+        <img src="s3.jpg" class="slide">
+
+        <!-- TEXT -->
+
+        <div class="textcontainer">
+
+            <p class="fade-line">Thank you for your guidance</p>
+
+            <p class="fade-line">for leading by example</p>
+
+            <p class="fade-line">for the patience,memories</p>
+
+            <p class="fade-line"> and the mentorship.❤️</p>
+
+            <div class="text-container">
+
+                <button class="gallery-btn" id="openCard">
+                    Open Invitation
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- INVITATION MODAL -->
+
+<div class="invite-modal" id="inviteModal">
+
+    <div class="invite-card">
+
+        <span class="close-card" id="closeCard">&times;</span>
+
+        <h1>Farewell Invitation ❤️</h1>
+
+        <p class="invite-text">
+            Thank you for being part of my journey.
+        </p>
+
+        <div class="details">
+
+            <p>📅 Date: 16 May 2026</p>
+
+            <p>⏰ Time: 6:00 PM</p>
+
+            <p>📍 Venue: Rosario Hall ,Visitation Convent</p>
+
+        </div>
+
+        <p class="footer-msg">
+            Hope to see you there ❤️
+        </p>
+
+    </div>
+
+</div>
+
+    <!-- SCRIPT -->
+
+    <script>
+
+        window.addEventListener("DOMContentLoaded", () => {
+
+            const intro = document.querySelector(".intro");
+
+            const slideshow = document.querySelector(".slideshow");
+
+            const slides = document.querySelectorAll(".slide");
+
+            const envelope = document.getElementById("envelope");
+
+            const envelopeScreen = document.getElementById("envelopeScreen");
+
+            const music = document.getElementById("bgMusic");
+
+            let index = 0;
+
+            /* CLICK ENVELOPE */
+
+            envelope.addEventListener("click", () => {
+
+                envelope.classList.add("open");
+
+                music.play();
+
+                setTimeout(() => {
+
+                    envelopeScreen.style.display = "none";
+
+                    intro.style.display = "flex";
+
+                    /* SHOW SLIDESHOW */
+
+                    setTimeout(() => {
+
+                        intro.style.display = "none";
+
+                        slideshow.classList.add("show");
+
+                    }, 4000);
+
+                }, 1500);
+
+            });
+
+            /* SLIDE CHANGE */
+
+            setInterval(() => {
+
+                slides[index].classList.remove("active");
+
+                index = (index + 1) % slides.length;
+
+                slides[index].classList.add("active");
+
+            }, 3000);
+
+        });
+        /* INVITATION MODAL */
+
+const openCardBtn = document.getElementById("openCard");
+
+const inviteModal = document.getElementById("inviteModal");
+
+const closeCardBtn = document.getElementById("closeCard");
+
+/* OPEN MODAL */
+
+openCardBtn.addEventListener("click", () => {
+
+    inviteModal.style.display = "flex";
+
+});
+
+/* CLOSE MODAL */
+
+closeCardBtn.addEventListener("click", () => {
+
+    inviteModal.style.display = "none";
+
+});
+
+/* CLOSE WHEN CLICK OUTSIDE */
+
+inviteModal.addEventListener("click", (e) => {
+
+    if(e.target === inviteModal){
+
+        inviteModal.style.display = "none";
+
+    }
+
+});
+
+    </script>
+
+</body>
+</html>
